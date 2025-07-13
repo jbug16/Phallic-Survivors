@@ -1,0 +1,65 @@
+Keys,Português (Brasil)
+ini_resume,Retomar
+ini_start,Iniciar
+ini_options,Opções
+ini_progress,Progresso
+ini_credits,Créditos
+ini_quit,Sair
+config_general,Geral
+config_gameplay,Jogabilidade
+config_video,Vídeo
+config_sound,Som
+config_ss,Tremor de tela
+config_vm,Modo de exibição
+config_sd,Exibição de dano
+config_mute,Silenciar ao perder foco
+config_pause,Pausar ao perder foco
+audio_general,Geral
+audio_sfx,Efeitos sonoros
+audio_music,Música
+cred_director,Diretor
+cred_programmer,Programador
+pause_restart,Reiniciar
+pause_end,Encerrar partida
+pause_saqmm,Salvar e sair para o menu principal
+pause_saqdt,Salvar e sair para área de trabalho
+op_window,Janela
+op_fs,Tela cheia
+op_bw,Janela sem bordas
+term_back,Voltar
+term_shop,Loja
+term_reroll,Renovar
+term_purchase,Comprar
+term_wave,Onda {0}
+term_lost,Tentativa perdida!
+term_sw,Começar onda {0}
+term_lu,Subiu de nível ({0})
+term_stats,Atributos
+stats_level,Nível
+stats_pv,Vigor
+stats_recovery,Estamina
+stats_ls,Fator sanguessuga
+stats_dmg,Acidez
+stats_mdmg,Perfuração
+stats_rdmg,Pressão do fluxo
+stats_edmg,Nível de pH
+stats_as,Taxa de fluxo
+stats_ac,Período refratário
+stats_cc,Risco de erupção
+stats_cdmg,Força de jato
+stats_tdmg,Estimulação
+stats_range,Distância do fluxo
+stats_armor,Imunidade
+stats_dodge,Flexibilidade
+stats_speed,Agilidade
+stats_luck,Encanto
+stats_pr,Magnetismo
+stats_harvest,Virilidade
+item_name_000,Faixa Apertada
+item_name_001,Cinturão de Castidade
+item_name_002,Laço Vibrante
+item_desc_000,Reduz o preço dos preservativos pela metade.
+item_desc_001,Concede imunidade ao efeito aleatório de status de Congelamento de Boneco.
+item_desc_002,"Vibra ritmicamente, aumentando a velocidade de movimento, mas reduzindo a precisão."
+safe_name,Preservativo
+safe_desc,Anula o risco de contrair uma DST na próxima onda.

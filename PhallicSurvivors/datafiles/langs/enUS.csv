@@ -1,0 +1,65 @@
+Keys,English
+ini_resume,Resume
+ini_start,Start
+ini_options,Options
+ini_progress,Progress
+ini_credits,Credits
+ini_quit,Exit
+config_general,General
+config_gameplay,Gameplay
+config_video,Video
+config_sound,Sound
+config_ss,Screen shake
+config_vm,View mode
+config_sd,Show damage
+config_mute,Mute when losing focus
+config_pause,Pause when losing focus
+audio_general,General
+audio_sfx,Sound effects
+audio_music,Music
+cred_director,Director
+cred_programmer,Programmer
+pause_restart,Restart
+pause_end,End game
+pause_saqmm,Save and quit to main menu
+pause_saqdt,Save and quit to desktop
+op_window,Window
+op_fs,Fullscreen
+op_bw,Borderless window
+term_back,Back
+term_shop,Shop
+term_reroll,Reroll
+term_purchase,Purchase
+term_wave,Wave {0}
+term_lost,Run lost!
+term_sw,Start wave {0}
+term_lu,Level up ({0})
+term_stats,Stats
+stats_level,Level
+stats_pv,Vigor
+stats_recovery,Stamina
+stats_ls,Leech factor
+stats_dmg,Acidity
+stats_mdmg,Thrusting
+stats_rdmg,Stream pressure
+stats_edmg,pH level
+stats_as,Flow rate
+stats_ac,Refractory period
+stats_cc,Eruption risk
+stats_cdmg,Spurt force
+stats_tdmg,Stimulation
+stats_range,Stream distance
+stats_armor,Immunity
+stats_dodge,Flexibility
+stats_speed,Agility
+stats_luck,Charm
+stats_pr,Magnetism
+stats_harvest,Virility
+item_name_000,Tight Wad
+item_name_001,Chastity Belt
+item_name_002,Vibe Loop
+item_desc_000,Cuts the price of condoms in half.
+item_desc_001,Grants immunity to Boner Freeze random status effect.
+item_desc_002,"Vibrates rhythmically, increasing movement speed, but reducing accuracy."
+safe_name,Condom
+safe_desc,Removes the risk of contracting a STD in the next wave.
