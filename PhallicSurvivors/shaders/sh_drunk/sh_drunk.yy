@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_drunk",
+  "name":"sh_drunk",
+  "parent":{
+    "name":"g_shaders",
+    "path":"folders/g_shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

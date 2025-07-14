@@ -40,7 +40,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.1.193",
+    "IDEVersion":"2024.13.0.190",
   },
   "name":"PhallicSurvivors",
   "resources":[
@@ -56,6 +56,7 @@
     {"id":{"name":"ob_enemy_spawn","path":"objects/ob_enemy_spawn/ob_enemy_spawn.yy",},},
     {"id":{"name":"ob_game","path":"objects/ob_game/ob_game.yy",},},
     {"id":{"name":"ob_player","path":"objects/ob_player/ob_player.yy",},},
+    {"id":{"name":"ob_post_process","path":"objects/ob_post_process/ob_post_process.yy",},},
     {"id":{"name":"ob_shoot","path":"objects/ob_shoot/ob_shoot.yy",},},
     {"id":{"name":"ob_solid","path":"objects/ob_solid/ob_solid.yy",},},
     {"id":{"name":"pa_collider","path":"objects/pa_collider/pa_collider.yy",},},
@@ -69,6 +70,7 @@
     {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
     {"id":{"name":"functions","path":"scripts/functions/functions.yy",},},
     {"id":{"name":"sh_color","path":"shaders/sh_color/sh_color.yy",},},
+    {"id":{"name":"sh_drunk","path":"shaders/sh_drunk/sh_drunk.yy",},},
     {"id":{"name":"sp_aim","path":"sprites/sp_aim/sp_aim.yy",},},
     {"id":{"name":"sp_bg","path":"sprites/sp_bg/sp_bg.yy",},},
     {"id":{"name":"sp_bladder_bg","path":"sprites/sp_bladder_bg/sp_bladder_bg.yy",},},

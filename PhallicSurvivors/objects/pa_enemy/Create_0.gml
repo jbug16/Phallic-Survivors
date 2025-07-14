@@ -64,7 +64,8 @@ apply_dmg = function(_d, _s)
 				_l[i] *= global.player.luck
 			}
 			
-			Fspawn_consu(Fweight_random(_l))
+			//Fspawn_consu(Fweight_random(_l))
+			Fspawn_consu(consuList.beer);
 		}
 		
 		instance_destroy()

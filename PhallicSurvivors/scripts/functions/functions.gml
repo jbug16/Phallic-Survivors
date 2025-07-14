@@ -870,8 +870,8 @@ function Fini()
 	
 	instance_create_depth(0, 0, 0, ob_game)
 	
-	window_set_fullscreen(true)
-	window_enable_borderless_fullscreen(true)
+	window_set_fullscreen(false)
+	window_enable_borderless_fullscreen(false)
 	
 	#region Items
 	
@@ -1408,3 +1408,11 @@ global.Cstats = function() constructor
 }
 
 #endregion
+
+/// @param _to Target intensity (0.0–1.0)
+/// @param _speed Lerp speed (e.g., 0.02 for slow, 0.1 for fast)
+function fade_drunk(_to, _speed)
+{
+    global.drunk_target = clamp(_to, 0, 1);
+    global.drunk_fade_speed = _speed;
+}

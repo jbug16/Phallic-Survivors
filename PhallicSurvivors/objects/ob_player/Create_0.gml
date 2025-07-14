@@ -88,6 +88,9 @@ accuracy = 1
 dn = [1, .5]
 drain = dn
 
+//Beer effect
+beer_active = false;
+
 //Pick up
 pickupl = ds_list_create()
 
@@ -122,54 +125,22 @@ buff.set_eff = function(_i, _d)
 			
 			switch(_i)
 			{
-				case 1: //Coffee cup
-				{
-					other.drain = _d ? other.dn : [other.dn[0]*2, other.dn[1]*2]
-					_t = 25 * FR
-					
-					break
-				}
-				case 2: //Lemonade
-				{
-					dmg = 1.5
-					_t = 15 * FR
-					
-					break
-				}
-				case 3: //Beer
-				{
-					
-					_t = 20 * FR
-					
-					break
-				}
-				case 4: //Gnrrh - debuff
-				{
-					
-					
-					break
-				}
-				case 5: //Hv/ds - debuff
-				{
-					
-					
-					break
-				}
-				case 6: //Hrps - debuff
-				{
-					
-					
-					break
-				}
-				case 7: //Chlmd - debuff
-				{
-					
-					
-					break
-				}
+				case consuList.coffe:
+					other.drain = _d ? other.dn : [other.dn[0]*2, other.dn[1]*2];
+					_t = 25 * FR;
+					break;
+
+				case consuList.lemonade:
+					dmg = 1.5;
+					_t = 15 * FR;
+					break;
+
+				case consuList.beer:
+					accuracy = 0.5;
+					fade_drunk(1, 0.05);
+					_t = 10 * FR;
+					break;
 			}
-			
-			//show_message(_i)
 			
 			if(_t != 0) 
 			{
@@ -191,48 +162,18 @@ buff.set_eff = function(_i, _d)
 		{
 			switch(_i)
 			{
-				case 0: //Coffee cup
-				{
-					drain = dn
-					
-					break
-				}
-				case 1: //Lemonade
-				{
-					dmg = 1
-					
-					break
-				}
-				case 2: //Beer
-				{
-					
-					
-					break
-				}
-				case 3: //Gnrrh - debuff
-				{
-					
-					
-					break
-				}
-				case 4: //Hv/ds - debuff
-				{
-					
-					
-					break
-				}
-				case 5: //Hrps - debuff
-				{
-					
-					
-					break
-				}
-				case 6: //Chlmd - debuff
-				{
-					
-					
-					break
-				}
+				case consuList.coffe:
+					drain = other.dn;
+					break;
+
+				case consuList.lemonade:
+					dmg = 1;
+					break;
+
+				case consuList.beer:
+					accuracy = 1;
+					fade_drunk(0, 0.05);
+					break;
 			}
 			
 			for(var i = 0; i < array_length(list); i++)
