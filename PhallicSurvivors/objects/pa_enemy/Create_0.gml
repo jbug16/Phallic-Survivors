@@ -55,19 +55,6 @@ apply_dmg = function(_d, _s)
 			}
 		}
 		
-		if(random(1) <= .1)
-		{
-			var _l = global.consu[1]
-			
-			for(var i = 0; i < array_length(_l); i++)
-			{
-				_l[i] *= global.player.luck
-			}
-			
-			//Fspawn_consu(Fweight_random(_l))
-			Fspawn_consu(consuList.beer);
-		}
-		
 		instance_destroy()
 	}
 }

@@ -49,6 +49,7 @@
     {"id":{"name":"f_regular_bold","path":"fonts/f_regular_bold/f_regular_bold.yy",},},
     {"id":{"name":"f_regular","path":"fonts/f_regular/f_regular.yy",},},
     {"id":{"name":"ob_coin","path":"objects/ob_coin/ob_coin.yy",},},
+    {"id":{"name":"ob_consu_spawn","path":"objects/ob_consu_spawn/ob_consu_spawn.yy",},},
     {"id":{"name":"ob_consu","path":"objects/ob_consu/ob_consu.yy",},},
     {"id":{"name":"ob_counter","path":"objects/ob_counter/ob_counter.yy",},},
     {"id":{"name":"ob_en_test_1","path":"objects/ob_en_test_1/ob_en_test_1.yy",},},

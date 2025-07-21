@@ -5,6 +5,7 @@ event_inherited()
 type = "player"
 
 hit = noone
+can_move = true
 
 update_status = function()
 {
@@ -88,8 +89,8 @@ accuracy = 1
 dn = [1, .5]
 drain = dn
 
-//Beer effect
-beer_active = false;
+// Tree stat
+tree_stat = 0;
 
 //Pick up
 pickupl = ds_list_create()
@@ -211,7 +212,7 @@ apply_dmg = function(_d, _s)
 
 main = function()
 {
-	if(global.pause || hp < 1) exit
+	if(global.pause || hp < 1 || !can_move) exit
 	
 	var _k = global.inputs.game, 
 	_r = Fbind(_k[gameBinds.walkRight]), 

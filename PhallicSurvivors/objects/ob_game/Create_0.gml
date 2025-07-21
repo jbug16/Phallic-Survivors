@@ -262,13 +262,24 @@ Twave = {
 			enemy = ob_en_test
 		}
 	},
+	
+	create_consu: function()
+	{
+		with(instance_create_layer(0, 0, "insts", ob_consu_spawn))
+		{
+			do { x = irandom_range(160, 2336); y = irandom_range(160, 1856) }
+			until distance_to_object(ob_player) > 100
+			
+			consu = ob_consu
+		}
+	},
 }
 
 Twave.main = function()
 {
 	with(Twave)
 	{
-		if(room != rm_000 || global.pause) exit
+		if(room != rm_000 || global.pause) exit;
 		
 		//Starting wave
 		if(init)
@@ -338,6 +349,16 @@ Twave.main = function()
 		
 			//Spawning enemies
 			if(time[0] > 0 && time[0] % (tick * FR) == 0) repeat(2 + (_t * .3 - _t * .1)) create_enemy()
+			
+			//Spawning items
+			if (time[0] > 0 && time[0] % (tick * FR) == 0)
+			{
+				if (random(1) < 0.4) // 40% chance to spawn during this tick
+				{
+				    create_consu();
+				}
+			}
+
 		
 			//Counting down time
 			if(time[0] > 0) time[0]--
