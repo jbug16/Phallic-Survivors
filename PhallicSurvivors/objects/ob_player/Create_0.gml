@@ -89,8 +89,8 @@ accuracy = 1
 dn = [1, .5]
 drain = dn
 
-// Tree stat
-tree_stat = 0;
+// Boner freeze
+freeze_clicks_left = 0;
 
 //Pick up
 pickupl = ds_list_create()
