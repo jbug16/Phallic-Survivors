@@ -92,6 +92,51 @@ drain = dn
 // Boner freeze
 freeze_clicks_left = 0;
 
+unfreeze = function()
+{
+	if (!can_move && mouse_check_button_pressed(mb_left))
+	{
+	    var _click = point_distance(mouse_x, mouse_y, x, y) < 40;
+
+	    if (_click)
+	    {
+	        freeze_clicks_left--;
+	        Fss(5);
+	        show_debug_message(freeze_clicks_left);
+
+	        if (freeze_clicks_left <= 0)
+	        {
+	            can_move = true;
+	        }
+	    }
+	}
+}
+
+draw_freeze_bar = function()
+{
+	if (!can_move && freeze_clicks_left > 0)
+	{
+	    var bar_h = 100; // total height of bar
+	    var bar_w = 20;  // width of bar
+	    var clicks_max = 10; // or freeze_clicks_max if you define one
+	    var clicks_done = clicks_max - freeze_clicks_left;
+
+	    var filled_height = bar_h * (clicks_done / clicks_max);
+
+	    // Position the bar next to the player (right side)
+	    var bar_x = x + 40;
+	    var bar_y = y - bar_h / 2;
+
+	    // Outline
+	    draw_set_color(c_black);
+	    draw_rectangle(bar_x - 1, bar_y - 1, bar_x + bar_w + 1, bar_y + bar_h + 1, false);
+
+	    // Fill
+	    draw_set_color(c_white);
+	    draw_rectangle(bar_x, bar_y + bar_h - filled_height, bar_x + bar_w, bar_y + bar_h, false);
+	}
+}
+
 //Pick up
 pickupl = ds_list_create()
 
@@ -212,7 +257,12 @@ apply_dmg = function(_d, _s)
 
 main = function()
 {
-	if(global.pause || hp < 1 || !can_move) exit
+	if(global.pause || hp < 1) exit
+	
+	// Boner freeze
+	unfreeze();
+	
+	if(!can_move) exit
 	
 	var _k = global.inputs.game, 
 	_r = Fbind(_k[gameBinds.walkRight]), 

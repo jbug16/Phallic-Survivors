@@ -362,10 +362,9 @@ Twave.main = function()
 			// Give player boner
 			if (time[0] > 0 && time[0] % (tick * FR) == 0)
 			{
-				show_debug_message("tick");
 				with (ob_player)
 				{
-					if ((random(1) < 0.02) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
+					if ((random(1) < 0.8) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
 					{
 						show_debug_message("BONER!!!!");
 						can_move = false;
