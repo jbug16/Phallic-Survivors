@@ -84,6 +84,7 @@
     {"id":{"name":"sp_enemy_idle","path":"sprites/sp_enemy_idle/sp_enemy_idle.yy",},},
     {"id":{"name":"sp_enemy_mask","path":"sprites/sp_enemy_mask/sp_enemy_mask.yy",},},
     {"id":{"name":"sp_hit","path":"sprites/sp_hit/sp_hit.yy",},},
+    {"id":{"name":"sp_player_freeze","path":"sprites/sp_player_freeze/sp_player_freeze.yy",},},
     {"id":{"name":"sp_player_idle","path":"sprites/sp_player_idle/sp_player_idle.yy",},},
     {"id":{"name":"sp_player_mask","path":"sprites/sp_player_mask/sp_player_mask.yy",},},
     {"id":{"name":"sp_se_warn","path":"sprites/sp_se_warn/sp_se_warn.yy",},},

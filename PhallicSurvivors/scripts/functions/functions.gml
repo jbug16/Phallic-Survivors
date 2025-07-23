@@ -769,6 +769,69 @@ function Fconsu_rate(_i)
 
 #endregion
 
+#region Debuffs
+
+enum std {
+    gonorrhea,
+    hiv,
+    herpes,
+    chlamydia
+}
+
+function pick_random_std() 
+{
+    var all_stds = [std.chlamydia, std.gonorrhea, std.herpes, std.hiv];
+    var available = [];
+
+    for (var i = 0; i < array_length(all_stds); i++) 
+    {
+        if (!array_contains(current_stds, all_stds[i])) 
+        {
+            array_push(available, all_stds[i]);
+        }
+    }
+
+    if (array_length(available) > 0) {
+        var index = irandom(array_length(available) - 1);
+        var chosen = available[index];
+        show_debug_message("Chosen STD: " + string(chosen));
+        return chosen;
+    }
+    else {
+        show_debug_message("No STDs available");
+        return -1;
+    }
+}
+
+function apply_std(_type)
+{
+	with (ob_player)
+	{
+		if (!array_contains(current_stds, _type)) 
+		{
+	        array_push(current_stds, _type);
+
+	        switch (_type) 
+			{
+	            case std.gonorrhea:
+	                show_debug_message("You got Gonorrhea! Pissing now hurts.");
+	                break;
+	            case std.hiv:
+	                show_debug_message("You got HIV. Your immunity has been wiped.");
+	                break;
+	            case std.herpes:
+	                show_debug_message("You got Herpes. Watch out for painful flare-ups.");
+	                break;
+	            case std.chlamydia:
+	                show_debug_message("You got Chlamydia. You're feeling sore and sluggish.");
+	                break;
+	        }
+	    }
+	}
+}
+
+#endregion
+
 #region Upgrades
 
 enum ugInfo
@@ -810,6 +873,18 @@ function Fug_stats(_id)
 function Fug_color(_id)
 {
 	return global.tc[Fug_tier(_id)]
+}
+
+#endregion
+
+#region Shop
+
+function buy_condom()
+{
+	with (ob_player)
+	{
+		condom_on = true;
+	}
 }
 
 #endregion

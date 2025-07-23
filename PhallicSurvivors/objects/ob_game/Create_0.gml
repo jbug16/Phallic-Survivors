@@ -302,6 +302,9 @@ Twave.main = function()
 					info.crystals += info.harvest
 					
 					Fshow_v(info.harvest, 4,, 80, 90)
+					
+					// Condom resets after each wave
+					condom_on = false;
 				}
 			}
 			
@@ -340,6 +343,8 @@ Twave.main = function()
 					repeat(3 + (time[1] div FR) * .1) create_enemy()
 				
 					init = false
+					
+					with (ob_player) if (!condom_on) apply_std(pick_random_std());
 				}
 			}
 		}
@@ -366,7 +371,7 @@ Twave.main = function()
 				{
 					if ((random(1) < 0.8) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
 					{
-						show_debug_message("BONER!!!!");
+						sprite_index = sp_player_freeze;
 						can_move = false;
 						freeze_clicks_left = 10;
 					}

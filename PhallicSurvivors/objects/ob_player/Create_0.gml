@@ -2,6 +2,7 @@
 event_inherited()
 
 //Basic
+sprite_index = sp_player_idle;
 type = "player"
 
 hit = noone
@@ -91,24 +92,30 @@ drain = dn
 
 // Boner freeze
 freeze_clicks_left = 0;
+expected_key = ord("A");
 
 unfreeze = function()
 {
-	if (!can_move && mouse_check_button_pressed(mb_left))
+	var _left = ord("A");
+	var _right = ord("D");
+	
+	if (!can_move)
 	{
-	    var _click = point_distance(mouse_x, mouse_y, x, y) < 40;
+		// Get key pressed this frame
+		if (keyboard_check_pressed(expected_key))
+		{
+			freeze_clicks_left--;
+			Fss(5); // screenshake
 
-	    if (_click)
-	    {
-	        freeze_clicks_left--;
-	        Fss(5);
-	        show_debug_message(freeze_clicks_left);
+			// Alternate expected key
+			expected_key = expected_key == _left ? _right : _left;
 
-	        if (freeze_clicks_left <= 0)
-	        {
-	            can_move = true;
-	        }
-	    }
+			if (freeze_clicks_left <= 0)
+			{
+				can_move = true;
+				sprite_index = sp_player_idle;
+			}
+		}
 	}
 }
 
@@ -136,6 +143,10 @@ draw_freeze_bar = function()
 	    draw_rectangle(bar_x, bar_y + bar_h - filled_height, bar_x + bar_w, bar_y + bar_h, false);
 	}
 }
+
+// STDs
+condom_on = false;
+current_stds = [];
 
 //Pick up
 pickupl = ds_list_create()
