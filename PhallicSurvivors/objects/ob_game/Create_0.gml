@@ -196,6 +196,10 @@ Tgame.main = function()
 		
 		if(keyboard_check_pressed(ord("R"))) Fgame_state(!global.pause)
 		if(keyboard_check_pressed(ord("Z"))) ob_player.apply_dmg(ob_player.hp_max * .3)
+		if(keyboard_check_pressed(ord("C"))) with (ob_player) apply_std(std.chlamydia);
+		if(keyboard_check_pressed(ord("G"))) with (ob_player) apply_std(std.gonorrhea);
+		if(keyboard_check_pressed(ord("H"))) with (ob_player) apply_std(std.herpes);
+		if(keyboard_check_pressed(ord("I"))) with (ob_player) apply_std(std.hiv);
 		if(keyboard_check_pressed(ord("1")))
 		{
 			global.player.stats[statsList.recovery]++
@@ -344,7 +348,7 @@ Twave.main = function()
 				
 					init = false
 					
-					with (ob_player) if (!condom_on) apply_std(pick_random_std());
+					//with (ob_player) if (!condom_on) apply_std(pick_random_std());
 				}
 			}
 		}
@@ -369,7 +373,7 @@ Twave.main = function()
 			{
 				with (ob_player)
 				{
-					if ((random(1) < 0.8) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
+					if ((random(1) < 0.02) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
 					{
 						sprite_index = sp_player_freeze;
 						can_move = false;

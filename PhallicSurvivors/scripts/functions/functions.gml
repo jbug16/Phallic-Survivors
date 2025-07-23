@@ -673,7 +673,12 @@ global.player = {
 		//harvest
 		harvest = stats[statsList.harvest]
 		
-		with(ob_player) update_status()
+		with(ob_player)
+		{
+			show_debug_message(spd_max);
+			chlamydia_applied = false;
+			update_status();
+		}
 	},
 }
 global.player.stats[statsList.vigor] = 20
@@ -814,16 +819,20 @@ function apply_std(_type)
 	        switch (_type) 
 			{
 	            case std.gonorrhea:
-	                show_debug_message("You got Gonorrhea! Pissing now hurts.");
+	                show_debug_message("Gonorrhea");
 	                break;
 	            case std.hiv:
-	                show_debug_message("You got HIV. Your immunity has been wiped.");
+	                show_debug_message("HIV");
+					global.player.stats[statsList.recovery] = 0;
+					global.player.set_status();
+					ob_game.stats.satt = true;
 	                break;
 	            case std.herpes:
-	                show_debug_message("You got Herpes. Watch out for painful flare-ups.");
+	                show_debug_message("Herpes");
+					herpes_timer = irandom_range(5 * FR, 10 * FR);
 	                break;
 	            case std.chlamydia:
-	                show_debug_message("You got Chlamydia. You're feeling sore and sluggish.");
+	                show_debug_message("Chlamydia");
 	                break;
 	        }
 	    }
