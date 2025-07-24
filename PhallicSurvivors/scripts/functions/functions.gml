@@ -832,7 +832,7 @@ function apply_std(_type)
 	                break;
 	            case std.hiv:
 	                show_debug_message("HIV");
-					global.player.stats[statsList.recovery] = 0;
+					global.player.stats[statsList.armor] = 0;
 					global.player.set_status();
 					ob_game.stats.satt = true;
 	                break;
