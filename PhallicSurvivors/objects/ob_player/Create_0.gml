@@ -96,19 +96,25 @@ expected_key = ord("A");
 
 unfreeze = function()
 {
-	var _left = ord("A");
-	var _right = ord("D");
-	
 	if (!can_move)
 	{
-		// Get key pressed this frame
-		if (keyboard_check_pressed(expected_key))
+		var _left = ord("A");
+		var _right = ord("D");
+		var _clicked = false;
+
+		// key press
+		if (keyboard_check_pressed(expected_key)) _clicked = true;
+
+		// mouse press near player
+		else if (mouse_check_button_pressed(mb_left)) {
+			if (point_distance(mouse_x, mouse_y, x, y) < 40) _clicked = true;
+		}
+
+		if (_clicked)
 		{
 			freeze_clicks_left--;
-			Fss(5); // screenshake
-
-			// Alternate expected key
-			expected_key = expected_key == _left ? _right : _left;
+			Fss(5);
+			expected_key = (expected_key == _left) ? _right : _left;
 
 			if (freeze_clicks_left <= 0)
 			{
@@ -184,6 +190,31 @@ herpes_flare_up = function()
 			{
 				herpes_dot_tick--;
 			}
+		}
+	}
+}
+
+// Cockrings
+equipped_cockrings = [];
+
+update_equipped_rings = function()
+{
+	for (var i = 0; i < array_length(equipped_cockrings); i++) 
+	{
+		switch (equipped_cockrings[i]) 
+		{
+			case "tight_wad":
+				global.condom_discount = true;
+				break;
+
+			case "chasity_belt":
+				global.boner_immune = true;
+				break;
+
+			case "titanium_loop":
+				hp_max *= 1.2;	// +20%
+				spd_max *= 0.9; // -10%
+				break;
 		}
 	}
 }

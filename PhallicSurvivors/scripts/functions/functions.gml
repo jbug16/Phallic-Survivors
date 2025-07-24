@@ -727,6 +727,15 @@ enum itemsList
 	tam
 }
 
+enum shopItem
+{
+	condom,
+	tightWad,
+	chasityBelt,
+	titaniumLoop,
+	tam
+}
+
 enum itemsInfo
 {
 	name,
@@ -959,11 +968,16 @@ function Fini()
 	
 	#region Items
 	
-	Fitem(itemsList.halfPrice,	"item_name_000", "item_desc_000")
-	Fitem(itemsList.immBf,		"item_name_001", "item_desc_001")
-	Fitem(itemsList.spdLAcc,	"item_name_002", "item_desc_002")
+	//Fitem(itemsList.halfPrice,	"item_name_000", "item_desc_000")
+	//Fitem(itemsList.immBf,		"item_name_001", "item_desc_001")
+	//Fitem(itemsList.spdLAcc,	"item_name_002", "item_desc_002")	
+	//Fitem(itemsList.safe, "safe_name", "safe_desc")
 	
-	Fitem(itemsList.safe, "safe_name", "safe_desc")
+	// Cockrings
+	Fitem(shopItem.tightWad, "Tight Wad", "Cuts the price of condoms in half.");
+	Fitem(shopItem.chasityBelt, "Chasity Belt", "Grants immunity to “boner freeze” random status effect.");
+	Fitem(shopItem.titaniumLoop, "Titanium Loop", "Increases maximum health by 20% but reduces movement speed by 10%.");
+	Fitem(shopItem.condom, "Condom", "Protects against STDs (single-use).");
 	
 	#endregion
 	

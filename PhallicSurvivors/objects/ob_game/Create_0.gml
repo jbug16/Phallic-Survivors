@@ -369,15 +369,18 @@ Twave.main = function()
 			}
 
 			// Give player boner
-			if (time[0] > 0 && time[0] % (tick * FR) == 0)
+			if (!global.boner_immune)
 			{
-				with (ob_player)
+				if (time[0] > 0 && time[0] % (tick * FR) == 0)
 				{
-					if ((random(1) < 0.02) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
+					with (ob_player)
 					{
-						sprite_index = sp_player_freeze;
-						can_move = false;
-						freeze_clicks_left = 10;
+						if ((random(1) < 0.02) and can_move != false) // 10% chance per wave (5 ticks per wave, 2% per tick)
+						{
+							sprite_index = sp_player_freeze;
+							can_move = false;
+							freeze_clicks_left = 10;
+						}
 					}
 				}
 			}
@@ -1131,16 +1134,23 @@ with(Tmenus.shop)
 		
 		sel = noone
 		
-		var _s = min(4, itemsList.tam)
+		var _s = min(4, shopItem.tam)
 		
 		ops = array_create(_s, noone)
 		
 		set_items = function()
 		{
-			for(var i = 0; i < array_length(ops); i++)
-			{
-				ops[i] = irandom(itemsList.tam-1)
+			var shop_pool = [
+				shopItem.tightWad,
+				shopItem.chasityBelt,
+				shopItem.titaniumLoop,
+				shopItem.condom
+			];
+
+			for (var i = 0; i < array_length(ops); i++) {
+				ops[i] = choose(shop_pool);
 			}
+
 		}
 		set_items()
 		//ops[3] = 
