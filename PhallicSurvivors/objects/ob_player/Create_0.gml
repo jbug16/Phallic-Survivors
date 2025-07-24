@@ -152,6 +152,7 @@ draw_freeze_bar = function()
 
 // STDs
 condom_on = false;
+pending_stds = [];
 current_stds = [];
 
 herpes_timer = -1;		// countdown to next flare-up

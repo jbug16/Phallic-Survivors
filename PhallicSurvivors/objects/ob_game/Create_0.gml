@@ -309,6 +309,16 @@ Twave.main = function()
 					
 					// Condom resets after each wave
 					condom_on = false;
+					
+					// Apply pending STDs
+					if (array_length(pending_stds) > 0)
+					{
+						for (var i = 0; i < array_length(pending_stds); i++)
+						{
+							apply_std(pending_stds[i]);
+						}
+						pending_stds = []; // clear after applying
+					}
 				}
 			}
 			
@@ -348,7 +358,19 @@ Twave.main = function()
 				
 					init = false
 					
-					//with (ob_player) if (!condom_on) apply_std(pick_random_std());
+					// Contract STD
+					with (ob_player)
+					{
+						if (!condom_on)
+						{
+							var _std = pick_random_std();
+							if (_std != -1)
+							{
+								array_push(pending_stds, _std);
+								show_debug_message("Contracted STD, will take effect next wave: " + string(_std));
+							}
+						}
+					}
 				}
 			}
 		}
