@@ -159,8 +159,6 @@ herpes_timer = -1;		// countdown to next flare-up
 herpes_flare_time = 0;	// remaining frames in current flare
 herpes_dot_tick = 0;	// cooldown between damage ticks
 
-chlamydia_applied = false; 
-
 herpes_flare_up = function()
 {
 	if (array_contains(current_stds, std.herpes))
@@ -196,29 +194,8 @@ herpes_flare_up = function()
 }
 
 // Cockrings
+pending_cockrings = [];
 equipped_cockrings = [];
-
-update_equipped_rings = function()
-{
-	for (var i = 0; i < array_length(equipped_cockrings); i++) 
-	{
-		switch (equipped_cockrings[i]) 
-		{
-			case "tight_wad":
-				global.condom_discount = true;
-				break;
-
-			case "chasity_belt":
-				global.boner_immune = true;
-				break;
-
-			case "titanium_loop":
-				hp_max *= 1.2;	// +20%
-				spd_max *= 0.9; // -10%
-				break;
-		}
-	}
-}
 
 //Pick up
 pickupl = ds_list_create()
@@ -417,11 +394,6 @@ main = function()
 			if(_move) dir = point_direction(0, 0, (_r - _l), (_d - _u))
 			
 			//Moving
-			if (array_contains(current_stds, std.chlamydia) && !chlamydia_applied) 
-			{
-				spd_max *= 0.6;
-				chlamydia_applied = true;
-			}
 			spd = lerp(spd, spd_max * _move, acel)
 			
 			if(_sp) hold = true

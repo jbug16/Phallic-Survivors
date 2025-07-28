@@ -319,6 +319,16 @@ Twave.main = function()
 						}
 						pending_stds = []; // clear after applying
 					}
+					
+					// Apply pending cockrings
+					if (array_length(pending_cockrings) > 0)
+					{
+						for (var i = 0; i < array_length(pending_cockrings); i++)
+						{
+							apply_cockring(pending_cockrings[i]);
+						}
+						pending_cockrings = []; // clear after applying
+					}
 				}
 			}
 			
@@ -366,11 +376,14 @@ Twave.main = function()
 							var _std = pick_random_std();
 							if (_std != -1)
 							{
-								array_push(pending_stds, _std);
+								//array_push(pending_stds, _std);
 								show_debug_message("Contracted STD, will take effect next wave: " + string(_std));
 							}
 						}
 					}
+					
+					// Test for cockrings
+					with (ob_player) array_push(pending_cockrings, cockring.titaniumLoop);
 				}
 			}
 		}
@@ -796,73 +809,69 @@ with(Tmenus.ini)
 }
 
 //Pause menu
-with(Tmenus.pause)
+with (Tmenus.pause)
 {
-	surf = noone
-	satt = true
-	
-	alpha = 0
-	alinc = ALINC
-	
-	open = false
-	desa = false
-	
-	sx = 0
-	sy = 0
-	sw = global.game.width
-	sh = global.game.height
-	
-	main = function()
-	{
-		if(!open) exit
-		
-		#region Alpha
-		
-		if(!desa)
-		{
-			if(alpha < 1)
-			{
-				alpha = clamp(alpha + alinc, 0, 1)
-			}
-		}
-		else
-		{
-			if(alpha > 0)
-			{
-				alpha = clamp(alpha - alinc, 0, 1)
-			}
-			else { open = false; desa = false; global.in_menu = false; global.pause = false }
-		}
-		
-		#endregion
-		
-		#region Visual
-		
-		if(!surface_exists(surf))
-		{
-			surf = surface_create(sw, sh)
-			satt = true
-		}
-		else
-		{
-			Fdraw(Ffont(fontsList.regular),,,, alpha)
-			draw_surface(surf, sx, sy)
-			Fdraw()
-			
-			if(satt)
-			{
-				surface_set_target(surf)
-				draw_clear_alpha(c_black, 0)
-				
-				surface_reset_target()
-				satt = false
-			}
-			
-			Fdraw()
-		}
-		
-		#endregion
-	}
+    surf = noone
+    satt = true
+    
+    alpha = 0
+    alinc = ALINC
+    
+    open = false
+    desa = false
+    
+    // add stats object
+    stats = new global.Cstats();
+    stats.center = false; // like in level up menu
+    
+    sx = 0
+    sy = 0
+    sw = global.game.width
+    sh = global.game.height
+    
+    main = function()
+    {
+        if (!open) exit;
+        
+        // Alpha logic (unchanged)
+        if (!desa) {
+            if (alpha < 1) alpha = clamp(alpha + alinc, 0, 1);
+        } else {
+            if (alpha > 0) alpha = clamp(alpha - alinc, 0, 1);
+            else { open = false; desa = false; global.in_menu = false; global.pause = false }
+        }
+        
+        // Visual logic
+        if (!surface_exists(surf)) {
+            surf = surface_create(sw, sh);
+            satt = true;
+        }
+        else
+        {
+            // draw background overlay
+            Frec(0, 0, global.game.width, global.game.height, c_black, alpha * 0.6);
+
+            Fdraw(Ffont(fontsList.big, fontsType.bold),,,, alpha);
+            draw_surface(surf, sx, sy);
+            Fdraw();
+
+            if (satt) {
+                surface_set_target(surf);
+                draw_clear_alpha(c_black, 0);
+
+                var txt = "PAUSED";
+                draw_set_font(Ffont(fontsList.big, fontsType.bold));
+                var tx = global.game.width div 2 - string_width(txt) div 2;
+                var ty = global.game.height div 2 - string_height(txt) div 2;
+                Ftext(tx, ty, txt, c_white);
+
+                surface_reset_target();
+                satt = false;
+            }
+
+            stats.main(alpha); 
+        }
+    }
 }
 
 //Level up menu
@@ -1254,8 +1263,6 @@ stats = new global.Cstats()
 Tmenus.main = function()
 {
 	Tmenus.ini.main()
-	
-	//stats.main(1)
 	
 	Tmenus.lu.main()
 	

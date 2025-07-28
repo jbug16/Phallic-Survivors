@@ -611,13 +611,16 @@ global.player = {
 	//Crystals (gold)
 	crystals: 0,
 	
+	// Extra hp
+	extra_hp: 0,
+	
 	set_status: function()
 	{
 		//XP to level up
 		xp = 100 + 50 * level
 		
 		//Health points
-		hp = stats[statsList.vigor]
+		hp = stats[statsList.vigor] + extra_hp
 		
 		//HP recovery
 		recovery = max(1/(.2 * sign(stats[statsList.recovery]) + .09 * max(stats[statsList.recovery]-1, 0)), 0)
@@ -675,8 +678,14 @@ global.player = {
 		
 		with(ob_player)
 		{
-			show_debug_message(spd_max);
-			chlamydia_applied = false;
+			// Apply effects
+			if (variable_instance_exists(self, "current_stds"))
+				if (array_contains(current_stds, std.chlamydia)) 
+					global.player.move_spd *= 0.6; // reduce by 40%
+			if (variable_instance_exists(self, "equipped_cockrings"))
+				if (array_contains(equipped_cockrings, cockring.titaniumLoop)) 
+					global.player.move_spd *= 0.9; // reduce by 10%
+			
 			update_status();
 		}
 	},
@@ -846,6 +855,51 @@ function apply_std(_type)
 	        }
 	    }
 	}
+}
+
+#endregion
+
+#region Cockrings
+
+enum cockring {
+    tightWad,
+    chasityBelt,
+    titaniumLoop
+}
+
+global.boner_immune = false;
+global.condom_discount = false;
+
+function apply_cockring(_type)
+{
+    with (ob_player)
+    {
+        // Only apply if not already equipped
+        if (!array_contains(equipped_cockrings, _type))
+        {
+            array_push(equipped_cockrings, _type);
+
+            switch (_type)
+            {
+                case cockring.tightWad:
+                    show_debug_message("Tight Wad cockring equipped");
+                    global.condom_discount = true;
+                    break;
+
+                case cockring.chasityBelt:
+                    show_debug_message("Chasity Belt cockring equipped");
+                    global.boner_immune = true;
+                    break;
+
+                case cockring.titaniumLoop:
+                    show_debug_message("Titanium Loop cockring equipped");
+					global.player.extra_hp += round(hp_max * 0.2); // +20%
+					global.player.set_status();
+					ob_game.stats.satt = true;
+                    break;
+            }
+        }
+    }
 }
 
 #endregion
