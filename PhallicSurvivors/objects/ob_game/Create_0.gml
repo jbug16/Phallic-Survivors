@@ -196,10 +196,12 @@ Tgame.main = function()
 		
 		if(keyboard_check_pressed(ord("R"))) Fgame_state(!global.pause)
 		if(keyboard_check_pressed(ord("Z"))) ob_player.apply_dmg(ob_player.hp_max * .3)
-		if(keyboard_check_pressed(ord("C"))) with (ob_player) apply_std(std.chlamydia);
-		if(keyboard_check_pressed(ord("G"))) with (ob_player) apply_std(std.gonorrhea);
-		if(keyboard_check_pressed(ord("H"))) with (ob_player) apply_std(std.herpes);
-		if(keyboard_check_pressed(ord("I"))) with (ob_player) apply_std(std.hiv);
+		//if(keyboard_check_pressed(ord("C"))) with (ob_player) apply_std(std.chlamydia);
+		//if(keyboard_check_pressed(ord("G"))) with (ob_player) apply_std(std.gonorrhea);
+		//if(keyboard_check_pressed(ord("H"))) with (ob_player) apply_std(std.herpes);
+		//if(keyboard_check_pressed(ord("I"))) with (ob_player) apply_std(std.hiv);
+		if(keyboard_check_pressed(ord("E"))) with (ob_player) show_debug_message(equipped_cockrings);
+		if(keyboard_check_pressed(ord("C"))) with (ob_player) show_debug_message(pending_cockrings);
 		if(keyboard_check_pressed(ord("1")))
 		{
 			global.player.stats[statsList.recovery]++
@@ -383,7 +385,7 @@ Twave.main = function()
 					}
 					
 					// Test for cockrings
-					with (ob_player) array_push(pending_cockrings, cockring.titaniumLoop);
+					//with (ob_player) array_push(pending_cockrings, cockring.titaniumLoop);
 				}
 			}
 		}
@@ -571,6 +573,9 @@ with(Tmenus.ini)
 		],
 		[
 			["term_back"],
+		],
+		[
+			["term_back"],
 		]
 	]
 	
@@ -610,7 +615,7 @@ with(Tmenus.ini)
 			}
 			case 2: //Options
 			{
-				//page = 2
+				page = 2
 				
 				if(surface_exists(surf)) surface_free(surf)
 				
@@ -664,6 +669,10 @@ with(Tmenus.ini)
 				sl_op(5)
 				
 				break
+				
+			case 2:
+				if (sel == 0) sl_op(5)
+				break;
 		}
 	}
 	
@@ -736,8 +745,35 @@ with(Tmenus.ini)
 			{
 				draw_set_font(Ffont(fontsList.big))
 				draw_set_halign(fa_center)
-				Ftext(global.game.width div 2, 300, $"- {Fgametext("cred_director")} -\nJake\n\n- {Fgametext("cred_programmer")} -\nSant'Anna Dev",,, 48)
+				Ftext(global.game.width div 2, 300, $"- {Fgametext("cred_director")} -\nJake\n\n- {Fgametext("cred_programmer")} -\nSant'Anna Dev\nJenna Curls",,, 48)
 				draw_set_halign(-1)
+			}
+			
+			if (page == 2)
+			{
+			    draw_set_font(Ffont(fontsList.big));
+			    draw_set_halign(fa_center);
+			    Ftext(global.game.width div 2, 300, "Options", c_white);
+			    draw_set_halign(fa_left);
+
+			    var start_x = global.game.width div 2 - 220;
+			    var start_y = 400;
+			    var spacing = 80;
+
+			    // Config buttons
+				global.config.music_volume = Fdraw_toggle("Music Volume", global.config.music_volume, start_x, start_y, 120, 40);
+			    start_y += spacing;
+
+			    global.config.sfx_volume = Fdraw_toggle("SFX Volume", global.config.sfx_volume, start_x, start_y, 120, 40);
+			    start_y += spacing;
+
+			    global.config.fullscreen = Fdraw_toggle("Fullscreen", global.config.fullscreen, start_x, start_y, 120, 40);
+			    start_y += spacing;
+
+			    global.config.auto_aim = Fdraw_toggle("Auto Aim", global.config.auto_aim, start_x, start_y, 120, 40);
+			    start_y += spacing;
+
+			    global.config.show_dmg = Fdraw_toggle("Show Damage", global.config.show_dmg, start_x, start_y, 120, 40);
 			}
 			
 			Fdraw(fnt,,,, alpha)
@@ -829,49 +865,93 @@ with (Tmenus.pause)
     sw = global.game.width
     sh = global.game.height
     
-    main = function()
-    {
-        if (!open) exit;
-        
-        // Alpha logic (unchanged)
-        if (!desa) {
-            if (alpha < 1) alpha = clamp(alpha + alinc, 0, 1);
-        } else {
-            if (alpha > 0) alpha = clamp(alpha - alinc, 0, 1);
-            else { open = false; desa = false; global.in_menu = false; global.pause = false }
-        }
-        
-        // Visual logic
-        if (!surface_exists(surf)) {
-            surf = surface_create(sw, sh);
-            satt = true;
-        }
-        else
-        {
-            // draw background overlay
-            Frec(0, 0, global.game.width, global.game.height, c_black, alpha * 0.6);
+	main = function()
+	{
+	    if (!open) exit;
 
-            Fdraw(Ffont(fontsList.big, fontsType.bold),,,, alpha);
-            draw_surface(surf, sx, sy);
-            Fdraw();
+	    // Alpha logic
+	    if (!desa) {
+	        if (alpha < 1) alpha = clamp(alpha + alinc, 0, 1);
+	    } else {
+	        if (alpha > 0) alpha = clamp(alpha - alinc, 0, 1);
+	        else { open = false; desa = false; global.in_menu = false; global.pause = false }
+	    }
 
-            if (satt) {
-                surface_set_target(surf);
-                draw_clear_alpha(c_black, 0);
+	    // Visual logic
+	    if (!surface_exists(surf)) {
+	        surf = surface_create(sw, sh);
+	        satt = true;
+	    }
+	    else
+	    {
+	        // Draw background overlay
+	        Frec(0, 0, global.game.width, global.game.height, c_black, alpha * 0.6);
 
-                var txt = "PAUSED";
-                draw_set_font(Ffont(fontsList.big, fontsType.bold));
-                var tx = global.game.width div 2 - string_width(txt) div 2;
-                var ty = global.game.height div 2 - string_height(txt) div 2;
-                Ftext(tx, ty, txt, c_white);
+	        Fdraw(Ffont(fontsList.big, fontsType.bold),,,, alpha);
+	        draw_surface(surf, sx, sy);
+	        Fdraw();
 
-                surface_reset_target();
-                satt = false;
-            }
+	        if (satt) {
+	            surface_set_target(surf);
+	            draw_clear_alpha(c_black, 0);
+	            surface_reset_target();
+	            satt = false;
+	        }
 
-            stats.main(alpha); 
-        }
-    }
+	        // Draw "PAUSED" at the top center
+	        var txt = "PAUSED";
+	        draw_set_font(Ffont(fontsList.big, fontsType.bold));
+	        draw_set_halign(fa_center);
+	        draw_text(global.game.width / 2, 80, txt);
+	        draw_set_halign(fa_left);
+
+	        // Button settings
+	        var btn_w = 300;
+	        var btn_h = 80;
+	        var spacing = 30;
+
+	        var start_x = global.game.width / 2 - btn_w / 2;
+	        var start_y = global.game.height / 2 - (btn_h + spacing / 2);
+
+	        // Draw buttons
+	        var labels = ["Resume", "Exit"];
+
+	        for (var i = 0; i < 2; i++) {
+	            var btn_x = start_x;
+	            var btn_y = start_y + i * (btn_h + spacing);
+
+	            var hovered = (global.cx >= btn_x && global.cx <= btn_x + btn_w &&
+	                           global.cy >= btn_y && global.cy <= btn_y + btn_h);
+
+	            var btn_col = hovered ? merge_color(c_dkgray, c_white, 0.2) : c_dkgray;
+
+	            // Draw button
+	            Froundrec(btn_x, btn_y, btn_w, btn_h, 10, btn_col);
+
+	            // Button text centered
+	            draw_set_halign(fa_center);
+	            draw_set_valign(fa_middle);
+	            draw_text(btn_x + btn_w / 2, btn_y + btn_h / 2, labels[i]);
+	            draw_set_valign(fa_top);
+	            draw_set_halign(fa_left);
+
+	            // Click handling
+	            if (hovered && mouse_check_button_pressed(mb_left)) {
+	                if (i == 0) {
+	                    // Resume
+	                    desa = true;
+	                    global.pause = false;
+	                    global.in_menu = false;
+	                }
+	                else if (i == 1) {
+	                    game_end();
+	                }
+	            }
+	        }
+
+	        stats.main(alpha); 
+	    }
+	}
 }
 
 //Level up menu
@@ -1194,86 +1274,91 @@ with(Tmenus.shop)
 
 		main = function(_a)
 		{
-		    if (!surface_exists(surf)) {
-		        surf = surface_create(sw, sh);
-		        satt = true;
-		    } 
-		    else 
-		    {
-		        Fdraw(Ffont(fontsList.regular),,,, _a);
-		        draw_surface(surf, sx, sy);
-		        Fdraw();
+			if (!surface_exists(surf)) {
+			    surf = surface_create(sw, sh);
+			    satt = true;
+			} 
+			else 
+			{
+			    Fdraw(Ffont(fontsList.regular),,,, _a);
+			    draw_surface(surf, sx, sy);
+			    Fdraw();
 
-		        if (satt) 
-		        {
-		            surface_set_target(surf);
-		            draw_clear_alpha(c_black, 0);
+			    if (satt) 
+			    {
+			        surface_set_target(surf);
+			        draw_clear_alpha(c_black, 0);
 
-		            for (var i = 0; i < array_length(ops); i++) 
-		            {
-		                var _x = sl_x + (sl_w + sep) * i;
-		                var _y = sl_y;
+			        for (var i = 0; i < array_length(ops); i++) 
+			        {
+			            var _x = sl_x + (sl_w + sep) * i;
+			            var _y = sl_y;
 
-		                // Highlight border when hovered
-		                var _g = 5;
-		                if (sel == i)
-		                    Froundrec(_x - _g, _y - _g, sl_w + _g*2, sl_h + _g*2, R+_g, c_white);
+			            // Highlight border
+			            var _g = 5;
+			            if (sel == i)
+			                Froundrec(_x - _g, _y - _g, sl_w + _g*2, sl_h + _g*2, R+_g, c_white);
 
-		                // Box background
-		                Froundrec(_x, _y, sl_w, sl_h, R, c_black, .94);
+			            // Card background
+			            Froundrec(_x, _y, sl_w, sl_h, R, c_black, .94);
 
-		                // Icon box
-		                Froundrec(_x + 19, _y + 19, 96, 96, R div 2, IBC, 1);
+			            // Icon box
+			            Froundrec(_x + 19, _y + 19, 96, 96, R div 2, IBC, 1);
 
-		                // Item name
-		                Ftext(_x + 127, _y + 25, Fget_item_name(ops[i]), c_white);
+			            // Item name
+			            draw_set_halign(fa_left);
+			            Ftext(_x + 127, _y + 25, Fget_item_name(ops[i]), c_white);
 
-		                // Cost
-		                var cost = Fget_item_cost(ops[i]);
-		                Ftext(_x + 19, _y + 132, "Cost: " + string(cost), c_lime);
-		            }
+			            // Description (multi-line)
+			            var desc = Fget_ring_description(ops[i]);
+			            draw_text_ext(_x + 19, _y + 120, desc, -1, sl_w - 40);
 
-		            surface_reset_target();
-		            satt = false;
-		        }
+			            // Price
+			            var cost = Fget_item_cost(ops[i]);
+						var col = global.player.crystals >= cost ? c_green : c_red;
+			            Ftext(_x + 19, _y + sl_h - 30, "Cost: " + string(cost), col);
+			        }
 
-		        Fdraw();
-		    }
+			        surface_reset_target();
+			        satt = false;
+			    }
 
-		    // Click/Selection Logic
-		    if (_a > ALMIN) 
-		    {
-		        var _x1 = sx + sl_x,
-		            _y1 = sy + sl_y,
-		            _x2 = _x1 + (sl_w + sep) * array_length(ops),
-		            _y2 = _y1 + sl_h,
-		            _ind = (global.cx - _x1) div (sl_w + sep),
-		            _area = global.cx >= _x1 && global.cy >= _y1 && global.cx < _x2 && global.cy < _y2;
+			    Fdraw();
+			}
 
-		        if (_area) 
-		        {
-		            if (_ind >= 0 && _ind < array_length(ops)) 
-		            {
-		                if (sel != _ind) { sel = _ind; satt = true; }
+			// Selection & Click Logic
+			if (_a > ALMIN) 
+			{
+			    var _x1 = sx + sl_x,
+			        _y1 = sy + sl_y,
+			        _x2 = _x1 + (sl_w + sep) * array_length(ops),
+			        _y2 = _y1 + sl_h,
+			        _ind = (global.cx - _x1) div (sl_w + sep),
+			        _area = global.cx >= _x1 && global.cy >= _y1 && global.cx < _x2 && global.cy < _y2;
 
-		                if (mouse_check_button_pressed(mb_left)) 
-		                {
-		                    var cost = Fget_item_cost(ops[sel]);
+			    if (_area) 
+			    {
+			        if (_ind >= 0 && _ind < array_length(ops)) 
+			        {
+			            if (sel != _ind) { sel = _ind; satt = true; }
 
-		                    if (global.player.crystals >= cost) 
-		                    {
-		                        global.player.crystals -= cost;
-		                        Fgive_item_to_player(ops[sel]);
-		                    }
-		                }
-		            }
-		        } 
-		        else if (sel != noone) 
-		        {
-		            sel = noone;
-		            satt = true;
-		        }
-		    }
+			            if (mouse_check_button_pressed(mb_left)) 
+			            {
+			                var cost = Fget_item_cost(ops[sel]);
+			                if (global.player.crystals >= cost) 
+			                {
+			                    global.player.crystals -= cost;
+			                    Fgive_item_to_player(ops[sel]);
+			                }
+			            }
+			        }
+			    } 
+			    else if (sel != noone) 
+			    {
+			        sel = noone;
+			        satt = true;
+			    }
+			}
 		};
 	}
 	
@@ -1312,6 +1397,45 @@ with(Tmenus.shop)
 		stats.main(alpha)
 		
 		sl.main(alpha)
+		
+		// Draw "Go" button
+		var btn_w = stats.sw;
+		var btn_h = 64;
+		var btn_x = global.game.width - btn_w - 32; // 32px margin from right
+		var btn_y = global.game.height - btn_h - 32; // 32px margin from bottom
+
+		// Hover check
+		var hovered = (global.cx >= btn_x && global.cx <= btn_x + btn_w &&
+		               global.cy >= btn_y && global.cy <= btn_y + btn_h);
+
+		var btn_col = hovered ? merge_color(c_dkgray, c_white, 0.2) : c_dkgray;
+
+		// Draw button
+		Froundrec(btn_x, btn_y, btn_w, btn_h, 20, btn_col);
+
+		// Center text both horizontally and vertically
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_middle);
+		draw_set_font(f_big);
+		Ftext(btn_x + btn_w / 2, btn_y - 24 + btn_h / 2, "Go", c_white);
+		draw_set_valign(fa_top);
+		draw_set_halign(fa_left);
+
+		// Handle click
+		if (mouse_check_button_pressed(mb_left)) {
+		    if (global.cx >= btn_x && global.cx <= btn_x + btn_w &&
+		        global.cy >= btn_y && global.cy <= btn_y + btn_h) 
+		    {
+		        // Close shop and resume game
+				open = false;
+				satt = true;
+			    global.pause = open; 
+			    global.in_menu = open;
+		    }
+		}
+		
+		// Draw equipped + pending rings in bottom-left
+		Fdraw_equipped_items(32, global.game.height - 200);
 	}
 }
 
@@ -1353,5 +1477,12 @@ Tmenus.main = function()
 	    Tmenus.shop.satt = true;
 	    global.pause = Tmenus.shop.open; 
 	    global.in_menu = Tmenus.shop.open;
+	}
+	
+	if (keyboard_check_pressed(vk_escape)) {
+	    Tmenus.pause.open = !Tmenus.pause.open;
+	    Tmenus.pause.satt = true;
+	    global.pause = Tmenus.pause.open; 
+	    global.in_menu = Tmenus.pause.open;
 	}
 }

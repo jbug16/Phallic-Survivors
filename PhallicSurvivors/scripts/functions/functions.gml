@@ -51,6 +51,13 @@ global.config = {
 	
 	//Language
 	lang: 0,
+	
+	// Sound
+    music_volume: true,
+    sfx_volume: true,
+	
+	// Screen
+    fullscreen: false
 }
 
 //The kind of button to show in UI: Keyboard and Mouse, PlayStation, Xbox, Nintendo
@@ -75,6 +82,50 @@ function Fset_language(_v)
 	global.config.lang = _index
 	
 	Fload_csv_translation()
+}
+
+/// Draws a toggle button aligned with the slider
+function Fdraw_toggle(_label, _value, _x, _y, _w, _h) {
+    // Label
+    draw_text(_x, _y, _label);
+
+    var btn_x = _x + 300;
+    var btn_y = _y + 8;
+    var btn_w = _w;
+    var btn_h = _h;
+
+    var hovered = (global.cx >= btn_x && global.cx <= btn_x + btn_w &&
+                   global.cy >= btn_y && global.cy <= btn_y + btn_h);
+
+    var btn_col = hovered ? merge_color(c_dkgray, c_white, 0.2) : c_dkgray;
+    Froundrec(btn_x, btn_y, btn_w, btn_h, 20, btn_col);
+
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_text(btn_x + btn_w / 2, btn_y - 2 + btn_h / 2, _value ? "ON" : "OFF");
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+
+    if (hovered && mouse_check_button_pressed(mb_left)) 
+	{
+        _value = !_value;
+		
+		switch (_label)
+		{
+			case "Music Volume":
+				// turn music volumne down
+				break;
+			case "SFX Volume":
+				// turn sfx volumne down
+				break;
+			case "Fullscreen":
+				window_set_fullscreen(_value);
+				window_enable_borderless_fullscreen(_value);
+				break;
+		}
+    }
+
+    return _value;
 }
 
 #endregion
@@ -1002,6 +1053,60 @@ function Fgive_item_to_player(_item) {
                 break;
         }
 		show_debug_message($"Bought: {Fget_item_name(_item)}");
+    }
+}
+
+/// @func Fget_ring_description(item)
+function Fget_ring_description(_item) {
+    switch (_item) {
+        case shopItem.tightWad:
+            return "50% off condoms";
+        case shopItem.chasityBelt:
+            return "Immune to boner freeze";
+        case shopItem.titaniumLoop:
+            return "+20% HP, -10% speed";
+        case shopItem.condom:
+            return "Prevents STDs for 1 wave";
+        default:
+            return "";
+    }
+}
+
+function Fdraw_equipped_items(_x, _y)
+{
+    draw_set_halign(fa_left);
+    draw_text(_x, _y, "Items");
+
+    var icon_size = 96;
+    var spacing = 10;
+    var start_x = _x;
+    var start_y = _y + icon_size/2 + spacing;
+    var col = 0;
+
+    // Helper function to draw the correct sprite
+    function draw_ring_icon(_item, _x, _y) {
+        var spr;
+        switch (_item) {
+            case cockring.tightWad:      spr = spr_tightwad_icon; break;
+            case cockring.chasityBelt:   spr = spr_chasitybelt_icon; break;
+            case cockring.titaniumLoop:  spr = spr_titaniumloop_icon; break;
+            default:                     spr = sp_bg;
+        }
+        draw_sprite_ext(spr, 0, _x, _y, 1, 1, 0, c_white, 1);
+    }
+	
+	if (!instance_exists(ob_player)) return;
+
+    // Draw EQUIPPED rings (left to right)
+    for (var i = 0; i < array_length(ob_player.equipped_cockrings); i++) {
+        draw_ring_icon(ob_player.equipped_cockrings[i], start_x + col * (icon_size + spacing), start_y);
+        col++;
+    }
+
+    // Draw PENDING rings after equipped
+    for (var i = 0; i < array_length(ob_player.pending_cockrings); i++) {
+        draw_ring_icon(ob_player.pending_cockrings[i], start_x + col * (icon_size + spacing), start_y);
+        col++;
     }
 }
 
