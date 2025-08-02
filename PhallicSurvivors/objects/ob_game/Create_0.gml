@@ -1152,16 +1152,17 @@ with(Tmenus.shop)
 		surf = noone
 		satt = true
 		
-		sx = BGA
-		sy = BGA
-		sw = 1434
-		sh = 614
-		
-		sl_w = 351
-		sl_h = 482
-		sl_x = 0
-		sl_y = sh - sl_h
-		sep = 10
+		b = 40;
+		sl_w = 351;
+		sl_h = 188;
+		sl_x = b;
+		sl_y = b;
+		sep  = 10;
+
+		sx = 32 - b;
+		sy = 407;
+		sw = 1468 + b*2;
+		sh = sl_h + b*2;
 		
 		sel = noone
 		
@@ -1169,48 +1170,111 @@ with(Tmenus.shop)
 		
 		ops = array_create(_s, noone)
 		
-		set_items = function()
-		{
-			var shop_pool = [
-				shopItem.tightWad,
-				shopItem.chasityBelt,
-				shopItem.titaniumLoop,
-				shopItem.condom
-			];
+		set_items = function() {
+		    // List of ring items
+		    var ring_pool = [
+		        shopItem.tightWad,
+		        shopItem.chasityBelt,
+		        shopItem.titaniumLoop
+		    ];
 
-			for (var i = 0; i < array_length(ops); i++) {
-				ops[i] = choose(shop_pool);
-			}
+		    // Fill all slots except the last one with unique rings
+		    for (var i = 0; i < array_length(ops) - 1; i++) {
+		        if (array_length(ring_pool) > 0) {
+		            var _i = irandom(array_length(ring_pool) - 1);
+		            ops[i] = ring_pool[_i];
+		            array_delete(ring_pool, _i, 1);
+		        }
+		    }
 
-		}
+		    // Last slot is always the condom
+		    ops[array_length(ops) - 1] = shopItem.condom;
+		};
 		set_items()
-		//ops[3] = 
-		
+
 		main = function(_a)
 		{
-			if(!surface_exists(surf))
-			{
-				surf = surface_create(sw, sh)
-				satt = true
-			}
-			else
-			{
-				Fdraw(Ffont(fontsList.regular),,,, _a)
-				draw_surface(surf, sx, sy)
-				Fdraw()
-				
-				if(satt)
-				{
-					surface_set_target(surf)
-					draw_clear_alpha(c_black, 0)
-					
-					surface_reset_target()
-					satt = false
-				}
-				
-				Fdraw()
-			}
-		}
+		    if (!surface_exists(surf)) {
+		        surf = surface_create(sw, sh);
+		        satt = true;
+		    } 
+		    else 
+		    {
+		        Fdraw(Ffont(fontsList.regular),,,, _a);
+		        draw_surface(surf, sx, sy);
+		        Fdraw();
+
+		        if (satt) 
+		        {
+		            surface_set_target(surf);
+		            draw_clear_alpha(c_black, 0);
+
+		            for (var i = 0; i < array_length(ops); i++) 
+		            {
+		                var _x = sl_x + (sl_w + sep) * i;
+		                var _y = sl_y;
+
+		                // Highlight border when hovered
+		                var _g = 5;
+		                if (sel == i)
+		                    Froundrec(_x - _g, _y - _g, sl_w + _g*2, sl_h + _g*2, R+_g, c_white);
+
+		                // Box background
+		                Froundrec(_x, _y, sl_w, sl_h, R, c_black, .94);
+
+		                // Icon box
+		                Froundrec(_x + 19, _y + 19, 96, 96, R div 2, IBC, 1);
+
+		                // Item name
+		                Ftext(_x + 127, _y + 25, Fget_item_name(ops[i]), c_white);
+
+		                // Cost
+		                var cost = Fget_item_cost(ops[i]);
+		                Ftext(_x + 19, _y + 132, "Cost: " + string(cost), c_lime);
+		            }
+
+		            surface_reset_target();
+		            satt = false;
+		        }
+
+		        Fdraw();
+		    }
+
+		    // Click/Selection Logic
+		    if (_a > ALMIN) 
+		    {
+		        var _x1 = sx + sl_x,
+		            _y1 = sy + sl_y,
+		            _x2 = _x1 + (sl_w + sep) * array_length(ops),
+		            _y2 = _y1 + sl_h,
+		            _ind = (global.cx - _x1) div (sl_w + sep),
+		            _area = global.cx >= _x1 && global.cy >= _y1 && global.cx < _x2 && global.cy < _y2;
+
+		        if (_area) 
+		        {
+		            if (_ind >= 0 && _ind < array_length(ops)) 
+		            {
+		                if (sel != _ind) { sel = _ind; satt = true; }
+
+		                if (mouse_check_button_pressed(mb_left)) 
+		                {
+		                    var cost = Fget_item_cost(ops[sel]);
+
+		                    if (global.player.crystals >= cost) 
+		                    {
+		                        global.player.crystals -= cost;
+		                        Fgive_item_to_player(ops[sel]);
+		                    }
+		                }
+		            }
+		        } 
+		        else if (sel != noone) 
+		        {
+		            sel = noone;
+		            satt = true;
+		        }
+		    }
+		};
 	}
 	
 	main = function()
@@ -1282,5 +1346,12 @@ Tmenus.main = function()
 		if(_i < 0) { _i = array_length(global.langs.ids)-1 }
 	
 		Fset_language(Flang_string(_i))
+	}
+	
+	if (keyboard_check_pressed(ord("P"))) {
+	    Tmenus.shop.open = !Tmenus.shop.open;
+	    Tmenus.shop.satt = true;
+	    global.pause = Tmenus.shop.open; 
+	    global.in_menu = Tmenus.shop.open;
 	}
 }

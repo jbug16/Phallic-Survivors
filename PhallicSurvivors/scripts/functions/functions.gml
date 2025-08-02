@@ -959,6 +959,52 @@ function buy_condom()
 	}
 }
 
+/// @func Fget_item_name(item)
+/// @desc Returns display name of shop item
+function Fget_item_name(_item) {
+    switch (_item) {
+        case shopItem.tightWad:     return "Tight Wad";
+        case shopItem.chasityBelt:  return "Chasity Belt";
+        case shopItem.titaniumLoop: return "Titanium Loop";
+        case shopItem.condom:       return "Condom";
+        default: return "Unknown Item";
+    }
+}
+
+/// @func Fget_item_cost(item)
+/// @desc Returns cost of shop item
+function Fget_item_cost(_item) {
+    switch (_item) {
+        case shopItem.tightWad:     return 10;
+        case shopItem.chasityBelt:  return 15;
+        case shopItem.titaniumLoop: return 20;
+        case shopItem.condom:       return 5;
+        default: return 0;
+    }
+}
+
+/// @func Fgive_item_to_player(item)
+/// @desc Gives the purchased item to the player
+function Fgive_item_to_player(_item) {
+    with (ob_player) {
+        switch (_item) {
+            case shopItem.tightWad:
+                array_push(pending_cockrings, cockring.tightWad);
+                break;
+            case shopItem.chasityBelt:
+                array_push(pending_cockrings, cockring.chasityBelt);
+                break;
+            case shopItem.titaniumLoop:
+                array_push(pending_cockrings, cockring.titaniumLoop);
+                break;
+            case shopItem.condom:
+                condom_on = true; // player instantly equips condom
+                break;
+        }
+		show_debug_message($"Bought: {Fget_item_name(_item)}");
+    }
+}
+
 #endregion
 
 #region Game
