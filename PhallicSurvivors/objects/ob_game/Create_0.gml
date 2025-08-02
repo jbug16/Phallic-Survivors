@@ -343,20 +343,35 @@ Twave.main = function()
 			{
 				if(global.rest)
 				{
-					if(global.player.ltu <= 0) global.rest = false
+					if (global.player.ltu > 0) 
+					{
+					    // Player can level up → go to level-up menu
+					    if (other.Tmenus.lu.open != true) 
+					    {
+					        other.Tmenus.lu.open = true;
+					        other.Tmenus.lu.desa = false;
+
+					        other.Tmenus.lu.satt = true;
+					        other.Tmenus.lu.stats.satt = true;
+
+					        global.pause = true;
+					        global.in_menu = true;
+					    }
+					}
 					else
 					{
-						if(other.Tmenus.lu.open != true) 
-						{
-							other.Tmenus.lu.open = true
-							other.Tmenus.lu.desa = false
-							
-							other.Tmenus.lu.satt = true
-							other.Tmenus.lu.stats.satt = true
-							
-							global.pause = true
-							global.in_menu = true
-						}
+					    // Player cannot level up → go straight to shop
+					    if (other.Tmenus.shop.open != true) 
+					    {
+					        other.Tmenus.shop.open = true;
+					        other.Tmenus.shop.desa = false;
+
+					        other.Tmenus.shop.satt = true;
+					        other.Tmenus.shop.stats.satt = true;
+
+					        global.pause = true;
+					        global.in_menu = true;
+					    }
 					}
 				}
 				else
@@ -1115,7 +1130,7 @@ with(Tmenus.lu)
 							global.player.set_status()
 							global.player.ltu = max(global.player.ltu-1, 0)
 							
-							if(global.player.ltu <= 0) { other.desa = true; global.rest = false; global.pause = false }
+							if(global.player.ltu <= 0) { other.desa = true; } //global.rest = false; global.pause = false }
 							else set_upgrades()
 							
 							other.stats.satt = true
@@ -1431,6 +1446,7 @@ with(Tmenus.shop)
 				satt = true;
 			    global.pause = open; 
 			    global.in_menu = open;
+				global.rest = open;
 		    }
 		}
 		

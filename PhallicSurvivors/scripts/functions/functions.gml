@@ -120,7 +120,6 @@ function Fdraw_toggle(_label, _value, _x, _y, _w, _h) {
 				break;
 			case "Fullscreen":
 				window_set_fullscreen(_value);
-				window_enable_borderless_fullscreen(_value);
 				break;
 		}
     }
@@ -1029,7 +1028,10 @@ function Fget_item_cost(_item) {
         case shopItem.tightWad:     return 10;
         case shopItem.chasityBelt:  return 15;
         case shopItem.titaniumLoop: return 20;
-        case shopItem.condom:       return 5;
+        case shopItem.condom:       
+			var _cost = 10;
+			if (global.condom_discount) _cost = _cost/2;
+			return _cost;
         default: return 0;
     }
 }
