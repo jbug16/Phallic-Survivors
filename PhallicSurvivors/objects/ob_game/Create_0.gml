@@ -1330,8 +1330,8 @@ with(Tmenus.shop)
 
 			            // Price
 			            var cost = Fget_item_cost(ops[i]);
-						var col = global.player.crystals >= cost ? c_green : c_red;
-			            Ftext(_x + 19, _y + sl_h - 30, "Cost: " + string(cost), col);
+						//var col = global.player.crystals >= cost ? c_green : c_red;
+			            Ftext(_x + 19, _y + sl_h - 30, "Cost: " + string(cost), c_white);
 			        }
 
 			        surface_reset_target();
