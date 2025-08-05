@@ -72,6 +72,7 @@
     {"id":{"name":"functions","path":"scripts/functions/functions.yy",},},
     {"id":{"name":"sh_color","path":"shaders/sh_color/sh_color.yy",},},
     {"id":{"name":"sh_drunk","path":"shaders/sh_drunk/sh_drunk.yy",},},
+    {"id":{"name":"sd_background_music","path":"sounds/sd_background_music/sd_background_music.yy",},},
     {"id":{"name":"sp_aim","path":"sprites/sp_aim/sp_aim.yy",},},
     {"id":{"name":"sp_bg","path":"sprites/sp_bg/sp_bg.yy",},},
     {"id":{"name":"sp_bladder_bg","path":"sprites/sp_bladder_bg/sp_bladder_bg.yy",},},
