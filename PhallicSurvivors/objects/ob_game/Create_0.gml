@@ -1413,6 +1413,26 @@ with(Tmenus.shop)
 		
 		sl.main(alpha)
 		
+		// Currency counter
+		var _icon = sp_coin;
+		var _text = string(global.player.crystals);
+
+		var _icon_w = sprite_get_width(_icon);
+		var _icon_h = sprite_get_height(_icon);
+		var _text_w = string_width(_text);
+		var _spacing = 4; // space between icon and text
+
+		var _total_w = _icon_w + _spacing + _text_w;
+
+		var _x = (global.game.width - _total_w) * 0.5;
+		var _y = BGA * 2;
+
+		// draw icon
+		draw_sprite(_icon, 0, _x, _y + _icon_h/2 - _spacing);
+
+		// draw number next to it
+		Ftext(_x + _icon_w + _spacing, _y, _text, c_white);
+		
 		// Draw "Go" button
 		var btn_w = stats.sw;
 		var btn_h = 64;
